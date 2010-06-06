@@ -1,13 +1,14 @@
 <%@ LANGUAGE="JScript" %>
 <%
 
+  Response.Charset = "UTF-8"
   var connection = Server.createObject("ADODB.Connection");
   var results = Server.createObject("ADODB.Recordset");
   connection.open("DSN=mysql_dsn");
   results.activeConnection = connection;
 
   if (connection.errors.count == 0) {
-  	Response.write("Some type info:");
+  	Response.write("Информация за типа:");
 	connection.execute("use property;");
 	var prop_type = connection.execute("select * from Type;");
 	while(!prop_type.eof) {
