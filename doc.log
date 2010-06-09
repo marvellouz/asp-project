@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Arch Linux) (format=pdflatex 2010.1.23)  9 JUN 2010 19:58
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Arch Linux) (format=pdflatex 2010.1.23)  10 JUN 2010 00:09
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -890,48 +890,48 @@ been already used, duplicate ignored
 <to be read again> 
                    \relax 
 l.62 \newpage
-              [1] <diagram.png, id=33, 773.89125pt x 687.56876pt>
+              [1] <diagram.png, id=58, 773.89125pt x 687.56876pt>
 File: diagram.png Graphic file (type png)
 
 <use diagram.png>
-Overfull \hbox (14.22635pt too wide) in paragraph at lines 72--77
+Overfull \hbox (14.22635pt too wide) in paragraph at lines 73--82
 [] 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 72--77
+Underfull \hbox (badness 10000) in paragraph at lines 73--82
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 72--77
+Underfull \hbox (badness 10000) in paragraph at lines 73--82
 
  []
 
 [2 <./diagram.png (PNG copy)>]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 80.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 85.
  (/usr/share/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 80.
-[3]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 157.
- [4]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 157.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 85.
+[3] [4]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 216.
+ [5]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 216.
  (./doc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 157.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 216.
 Package rerunfilecheck Info: File `doc.out' has not changed.
-(rerunfilecheck)             Checksum: D10374E69E4F9560CF98A682DA8AA308;383.
+(rerunfilecheck)             Checksum: 4AAB72737EC287BA54369E23BA1C6725;1236.
  ) 
 Here is how much of TeX's memory you used:
- 9527 strings out of 493847
- 127068 string characters out of 3153979
+ 9538 strings out of 493847
+ 127264 string characters out of 3153979
  203181 words of memory out of 3000000
- 12620 multiletter control sequences out of 15000+200000
+ 12625 multiletter control sequences out of 15000+200000
  15707 words of font info for 41 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 31i,5n,32p,610b,374s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 31i,5n,32p,610b,390s stack positions out of 5000i,500n,10000p,200000b,50000s
  </home/valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/lati1200.600pk
 > </home/valentina/.texlive/texmf-var/fonts/pk/ljfour/public/cm/cmsy10.720pk> <
 /home/valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1440.600pk> </
@@ -941,9 +941,9 @@ me/valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1440.600pk> </hom
 e/valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/lati1440.600pk> </home
 /valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1728.600pk> </home/
 valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1200.600pk>
-Output written on doc.pdf (5 pages, 190543 bytes).
+Output written on doc.pdf (6 pages, 210524 bytes).
 PDF statistics:
- 319 PDF objects out of 1000 (max. 8388607)
- 9 named destinations out of 1000 (max. 500000)
- 30 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 387 PDF objects out of 1000 (max. 8388607)
+ 15 named destinations out of 1000 (max. 500000)
+ 70 words of extra memory for PDF output out of 10000 (max. 10000000)
 
