@@ -1,0 +1,4 @@
+\select@language {bulgarian}
+\contentsline {section}{\numberline {1}\IeC {\CYRZ }\IeC {\cyra }\IeC {\cyrd }\IeC {\cyra }\IeC {\cyrn }\IeC {\cyri }\IeC {\cyre }}{2}{section.1}
+\contentsline {section}{\numberline {2}\IeC {\CYRR }\IeC {\cyre }\IeC {\cyra }\IeC {\cyrl }\IeC {\cyri }\IeC {\cyrz }\IeC {\cyra }\IeC {\cyrc }\IeC {\cyri }\IeC {\cyrya }}{2}{section.2}
+\contentsline {subsection}{\numberline {2.1}\IeC {\CYRB }\IeC {\cyra }\IeC {\cyrz }\IeC {\cyra } \IeC {\cyro }\IeC {\cyrt } \IeC {\cyrd }\IeC {\cyra }\IeC {\cyrn }\IeC {\cyrn }\IeC {\cyri }}{2}{subsection.2.1}

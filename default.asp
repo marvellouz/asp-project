@@ -17,11 +17,23 @@ Response.write(" " + Request.QueryString("lname") + "<br/>")
   connection.open("DSN=mysql_dsn");
   results.activeConnection = connection;
   if (connection.errors.count == 0) {
-  	Response.write("Информация за типа:");
+  	Response.write("Информация за типа:" + "<br/><br/>");
 	connection.execute("use property;");
 
   var sql = "insert into Type(name) values('" +  Request.QueryString("fname") + "');";
-	connection.execute(sql);
+  if (sql!="undefined"){
+  try
+    {
+	  connection.execute(sql);
+    }
+  catch(err)
+    {
+    txt="There was an error on this page.\n\n";
+    txt+="Error description: " + err.description + "\n\n";
+
+    Response.write(txt);
+    }
+  }
 
 	var prop_type = connection.execute("select * from Type;");
 	while(!prop_type.eof) {
