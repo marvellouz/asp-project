@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Arch Linux) (format=pdflatex 2010.1.23)  10 JUN 2010 00:09
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Arch Linux) (format=pdflatex 2010.1.23)  10 JUN 2010 00:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -916,22 +916,22 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 85.
 [3] [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 216.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 210.
  [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 216.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 210.
  (./doc.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 216.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 210.
 Package rerunfilecheck Info: File `doc.out' has not changed.
-(rerunfilecheck)             Checksum: 4AAB72737EC287BA54369E23BA1C6725;1236.
+(rerunfilecheck)             Checksum: D18EB9FB117CE0CF8E7262D44BEBBA6B;1244.
  ) 
 Here is how much of TeX's memory you used:
  9538 strings out of 493847
  127264 string characters out of 3153979
- 203181 words of memory out of 3000000
+ 204181 words of memory out of 3000000
  12625 multiletter control sequences out of 15000+200000
  15707 words of font info for 41 fonts, out of 3000000 for 9000
  714 hyphenation exceptions out of 8191
- 31i,5n,32p,610b,390s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 31i,5n,32p,610b,388s stack positions out of 5000i,500n,10000p,200000b,50000s
  </home/valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/lati1200.600pk
 > </home/valentina/.texlive/texmf-var/fonts/pk/ljfour/public/cm/cmsy10.720pk> <
 /home/valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1440.600pk> </
@@ -941,7 +941,7 @@ me/valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1440.600pk> </hom
 e/valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/lati1440.600pk> </home
 /valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/labx1728.600pk> </home/
 valentina/.texlive/texmf-var/fonts/pk/ljfour/lh/lh-t2a/larm1200.600pk>
-Output written on doc.pdf (6 pages, 210524 bytes).
+Output written on doc.pdf (6 pages, 210486 bytes).
 PDF statistics:
  387 PDF objects out of 1000 (max. 8388607)
  15 named destinations out of 1000 (max. 500000)
