@@ -2,7 +2,7 @@ body {
   min-width: 800px;
   padding: 0;
   margin: 0;
-  background-color: #e8efef;
+  background-color: #eaecfb;
 }
 
 img {
@@ -43,8 +43,14 @@ img {
   list-style-type: none;
 }
 
-#container {
-  margin-left: 13%;
-  width: 70%;
+#content {
+  margin-left: 10%;
+  width: 75%;
   padding: 30px;
+}
+
+#container {
+}
+
+#footer {
 }

@@ -20,6 +20,7 @@ Response.Codepage = 65001;
 
   <body>
 
+      <div id="container">
     <div id="header"><a href="/asp-project/"><img alt="logo" id="logo" src="images/logo.png" /></a>
       <div id = "hmenu_div">
         <ul id = "hmenu">
@@ -27,7 +28,7 @@ Response.Codepage = 65001;
         </ul>
     </div>
     </div>
-      <div id="container">
+        <div id="content">
       <form method="get" name="register" action="Default.asp">
         E-mail: <br />
         <input type="text" name="email" /><br /><br />
@@ -50,6 +51,8 @@ Response.Codepage = 65001;
         Response.write("</ul>");
       }
       %>
+        </div>
+        <div id="footer"></div>
     </div>
   </body>
 </html>
