@@ -1,5 +1,50 @@
+body {
+  min-width: 800px;
+  padding: 0;
+  margin: 0;
+  background-color: #e8efef;
+}
+
+img {
+  border: none;
+}
+
+#logo {
+  float: left;
+  height: 203px;
+  margin-left: 10%;
+}
+
+#hmenu li a {
+  display: block;
+  height: 88px;
+  width: 88px;
+}
+
+#search {
+  background-image: url("images/search.png");
+  height: 88px;
+  width: 88px;
+}
+
+#search:hover {
+  background-image: url("images/search_hover.png");
+}
+
 #header {
-  font: italic bold 40px Georgia, serif;
-  text-align: center;
-  padding: 10px;
+  border-bottom: 5px solid #111F90;
+  height: 203px;
+  background-color: #971919;
+}
+
+#hmenu {
+  padding-top: 60px;
+  display: inline-block;
+  list-style-type: none;
+}
+
+#container {
+  margin-left: 13%;
+  width: 70%;
+  padding: 30px;
 }

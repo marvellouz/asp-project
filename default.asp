@@ -20,7 +20,13 @@ Response.Codepage = 65001;
 
   <body>
 
-    <div id="header">Имоти<hr/></div>
+    <div id="header"><a href="/asp-project/"><img alt="logo" id="logo" src="images/logo.png" /></a>
+      <div id = "hmenu_div">
+        <ul id = "hmenu">
+          <li><a id="search" href = "/asp-project/"></a></li>
+        </ul>
+    </div>
+    </div>
       <div id="container">
       <form method="get" name="register" action="Default.asp">
         E-mail: <br />
