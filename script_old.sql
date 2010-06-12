@@ -9,12 +9,14 @@ USE `property`;
 -- -----------------------------------------------------
 -- Table `property`.`User`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`User` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`User` (
   `email` VARCHAR(255) NOT NULL ,
-  `password` VARCHAR(255) NOT NULL ,
+  `password` VARCHAR(45) NOT NULL ,
   `first_name` VARCHAR(45) NOT NULL ,
   `last_name` VARCHAR(45) NOT NULL ,
-  `is_admin` TINYINT(1) NOT NULL DEFAULT FALSE ,
+  `is_admin` BOOLEAN NOT NULL DEFAULT FALSE ,
   PRIMARY KEY (`email`) )
 ENGINE = InnoDB;
 
@@ -22,10 +24,11 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `property`.`Seller`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Seller` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Seller` (
   `User_email` VARCHAR(100) NOT NULL ,
   PRIMARY KEY (`User_email`) ,
-  INDEX `fk_Seller_User` (`User_email` ASC) ,
   CONSTRAINT `fk_Seller_User`
     FOREIGN KEY (`User_email` )
     REFERENCES `property`.`User` (`email` )
@@ -33,14 +36,17 @@ CREATE  TABLE IF NOT EXISTS `property`.`Seller` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE INDEX `fk_Seller_User` ON `property`.`Seller` (`User_email` ASC) ;
+
 
 -- -----------------------------------------------------
 -- Table `property`.`Customer`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Customer` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Customer` (
   `User_email` VARCHAR(100) NOT NULL ,
   PRIMARY KEY (`User_email`) ,
-  INDEX `fk_Customer_User` (`User_email` ASC) ,
   CONSTRAINT `fk_Customer_User`
     FOREIGN KEY (`User_email` )
     REFERENCES `property`.`User` (`email` )
@@ -48,10 +54,14 @@ CREATE  TABLE IF NOT EXISTS `property`.`Customer` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
+CREATE INDEX `fk_Customer_User` ON `property`.`Customer` (`User_email` ASC) ;
+
 
 -- -----------------------------------------------------
 -- Table `property`.`Type`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Type` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Type` (
   `name` VARCHAR(100) NOT NULL ,
   PRIMARY KEY (`name`) )
@@ -61,6 +71,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `property`.`Material`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Material` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Material` (
   `name` VARCHAR(100) NOT NULL ,
   PRIMARY KEY (`name`) )
@@ -70,6 +82,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `property`.`Address`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Address` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Address` (
   `id` INT NOT NULL ,
   `street` VARCHAR(255) NULL ,
@@ -83,6 +97,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `property`.`Place`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Place` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Place` (
   `Address_id` INT NOT NULL ,
   `Seller_User_email` VARCHAR(100) NOT NULL ,
@@ -91,14 +107,7 @@ CREATE  TABLE IF NOT EXISTS `property`.`Place` (
   `additional_info` TEXT NULL ,
   `Type_name` VARCHAR(100) NULL ,
   `Material_name` VARCHAR(100) NULL ,
-  `Customer_User_email` VARCHAR(100) NOT NULL ,
-  `created_at` TIMESTAMP NULL ,
-  PRIMARY KEY (`Address_id`) ,
-  INDEX `fk_Place_Seller` (`Seller_User_email` ASC) ,
-  INDEX `fk_Place_Type` (`Type_name` ASC) ,
-  INDEX `fk_Place_Material` (`Material_name` ASC) ,
-  INDEX `fk_Place_Address` (`Address_id` ASC) ,
-  INDEX `fk_Place_Customer` (`Customer_User_email` ASC) ,
+  PRIMARY KEY (`Seller_User_email`, `Address_id`) ,
   CONSTRAINT `fk_Place_Seller`
     FOREIGN KEY (`Seller_User_email` )
     REFERENCES `property`.`Seller` (`User_email` )
@@ -118,18 +127,48 @@ CREATE  TABLE IF NOT EXISTS `property`.`Place` (
     FOREIGN KEY (`Address_id` )
     REFERENCES `property`.`Address` (`id` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Place_Customer`
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+CREATE INDEX `fk_Place_Seller` ON `property`.`Place` (`Seller_User_email` ASC) ;
+
+CREATE INDEX `fk_Place_Type` ON `property`.`Place` (`Type_name` ASC) ;
+
+CREATE INDEX `fk_Place_Material` ON `property`.`Place` (`Material_name` ASC) ;
+
+CREATE INDEX `fk_Place_Address` ON `property`.`Place` (`Address_id` ASC) ;
+
+
+-- -----------------------------------------------------
+-- Table `property`.`Customer_has_Place`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Customer_has_Place` ;
+
+CREATE  TABLE IF NOT EXISTS `property`.`Customer_has_Place` (
+  `Customer_User_email` VARCHAR(100) NOT NULL ,
+  `Place_Seller_User_email` VARCHAR(100) NOT NULL ,
+  PRIMARY KEY (`Customer_User_email`, `Place_Seller_User_email`) ,
+  CONSTRAINT `fk_Customer_has_Place_Customer`
     FOREIGN KEY (`Customer_User_email` )
     REFERENCES `property`.`Customer` (`User_email` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_Customer_has_Place_Place`
+    FOREIGN KEY (`Place_Seller_User_email` )
+    REFERENCES `property`.`Place` (`Seller_User_email` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+
+CREATE INDEX `fk_Customer_has_Place_Customer` ON `property`.`Customer_has_Place` (`Customer_User_email` ASC) ;
+
+CREATE INDEX `fk_Customer_has_Place_Place` ON `property`.`Customer_has_Place` (`Place_Seller_User_email` ASC) ;
 
 
 -- -----------------------------------------------------
 -- Table `property`.`Extra`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Extra` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Extra` (
   `name` INT NOT NULL ,
   PRIMARY KEY (`name`) )
@@ -139,6 +178,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `property`.`City`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`City` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`City` (
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`name`) )
@@ -148,6 +189,8 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `property`.`Neighbourhood`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Neighbourhood` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Neighbourhood` (
   `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`name`) )
@@ -157,12 +200,12 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `property`.`Address_has_Neighbourhood`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Address_has_Neighbourhood` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Address_has_Neighbourhood` (
   `Address_id` INT NOT NULL ,
   `Neighbourhood_name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`Address_id`) ,
-  INDEX `fk_Address_has_Neighbourhood_Address` (`Address_id` ASC) ,
-  INDEX `fk_Address_has_Neighbourhood_Neighbourhood` (`Neighbourhood_name` ASC) ,
   CONSTRAINT `fk_Address_has_Neighbourhood_Address`
     FOREIGN KEY (`Address_id` )
     REFERENCES `property`.`Address` (`id` )
@@ -174,16 +217,20 @@ CREATE  TABLE IF NOT EXISTS `property`.`Address_has_Neighbourhood` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+CREATE INDEX `fk_Address_has_Neighbourhood_Address` ON `property`.`Address_has_Neighbourhood` (`Address_id` ASC) ;
+
+CREATE INDEX `fk_Address_has_Neighbourhood_Neighbourhood` ON `property`.`Address_has_Neighbourhood` (`Neighbourhood_name` ASC) ;
+
 
 -- -----------------------------------------------------
 -- Table `property`.`Address_has_City`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Address_has_City` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Address_has_City` (
   `Address_id` INT NOT NULL ,
   `City_name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`Address_id`) ,
-  INDEX `fk_Address_has_City_Address` (`Address_id` ASC) ,
-  INDEX `fk_Address_has_City_City` (`City_name` ASC) ,
   CONSTRAINT `fk_Address_has_City_Address`
     FOREIGN KEY (`Address_id` )
     REFERENCES `property`.`Address` (`id` )
@@ -195,49 +242,35 @@ CREATE  TABLE IF NOT EXISTS `property`.`Address_has_City` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 
+CREATE INDEX `fk_Address_has_City_Address` ON `property`.`Address_has_City` (`Address_id` ASC) ;
 
--- -----------------------------------------------------
--- Table `property`.`Customer_has_Place`
--- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `property`.`Customer_has_Place` (
-  `Customer_User_email` VARCHAR(100) NOT NULL ,
-  `Place_Seller_User_email` VARCHAR(100) NOT NULL ,
-  PRIMARY KEY (`Customer_User_email`, `Place_Seller_User_email`) ,
-  INDEX `fk_Customer_has_Place_Customer1` (`Customer_User_email` ASC) ,
-  INDEX `fk_Customer_has_Place_Place1` (`Place_Seller_User_email` ASC) ,
-  CONSTRAINT `fk_Customer_has_Place_Customer1`
-    FOREIGN KEY (`Customer_User_email` )
-    REFERENCES `property`.`Customer` (`User_email` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Customer_has_Place_Place1`
-    FOREIGN KEY (`Place_Seller_User_email` )
-    REFERENCES `property`.`Place` (`Seller_User_email` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+CREATE INDEX `fk_Address_has_City_City` ON `property`.`Address_has_City` (`City_name` ASC) ;
 
 
 -- -----------------------------------------------------
 -- Table `property`.`Place_has_Extra`
 -- -----------------------------------------------------
+DROP TABLE IF EXISTS `property`.`Place_has_Extra` ;
+
 CREATE  TABLE IF NOT EXISTS `property`.`Place_has_Extra` (
   `Place_Seller_User_email` VARCHAR(100) NOT NULL ,
+  `Place_Address_id` INT NOT NULL ,
   `Extra_name` INT NOT NULL ,
-  PRIMARY KEY (`Place_Seller_User_email`, `Extra_name`) ,
-  INDEX `fk_Place_has_Extra_Place` (`Place_Seller_User_email` ASC) ,
-  INDEX `fk_Place_has_Extra_Extra` (`Extra_name` ASC) ,
+  PRIMARY KEY (`Place_Seller_User_email`, `Place_Address_id`, `Extra_name`) ,
   CONSTRAINT `fk_Place_has_Extra_Place`
-    FOREIGN KEY (`Place_Seller_User_email` )
-    REFERENCES `property`.`Place` (`Seller_User_email` )
+    FOREIGN KEY (`Place_Seller_User_email` , `Place_Address_id` )
+    REFERENCES `property`.`Place` (`Seller_User_email` , `Address_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Place_has_Extra_Extra`
     FOREIGN KEY (`Extra_name` )
     REFERENCES `property`.`Extra` (`name` )
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
+
+CREATE INDEX `fk_Place_has_Extra_Place` ON `property`.`Place_has_Extra` (`Place_Seller_User_email` ASC, `Place_Address_id` ASC) ;
+
+CREATE INDEX `fk_Place_has_Extra_Extra` ON `property`.`Place_has_Extra` (`Extra_name` ASC) ;
 
 
 

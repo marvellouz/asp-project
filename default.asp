@@ -1,50 +1,49 @@
-<%@ LANGUAGE="JScript" %>
-<form method="get" action="Default.asp">
-First Name: <input type="text" name="fname" /><br />
-Last Name: <input type="text" name="lname" /><br /><br />
-<input type="submit" value="Submit" />
-</form>
->
+<%@ LANGUAGE="JScript" CODEPAGE=65001 %>
+<!--#include file="connection.inc"-->
+<!--#include file="helpers.inc"-->
+
+
 <%
-
-Response.Charset = "UTF-8"
-
-Response.write(Request.QueryString("fname"))
-Response.write(" " + Request.QueryString("lname") + "<br/>")
-
-  var connection = Server.createObject("ADODB.Connection");
-  var results = Server.createObject("ADODB.Recordset");
-  connection.open("DSN=mysql_dsn");
-  results.activeConnection = connection;
-  if (connection.errors.count == 0) {
-  	Response.write("Информация за типа:" + "<br/><br/>");
-	connection.execute("use property;");
-
-  var sql = "insert into Type(name) values('" +  Request.QueryString("fname") + "');";
-  if (sql!="undefined"){
-  try
-    {
-	  connection.execute(sql);
-    }
-  catch(err)
-    {
-    txt="There was an error on this page.\n\n";
-    txt+="Error description: " + err.description + "\n\n";
-
-    Response.write(txt);
-    }
-  }
-
-	var prop_type = connection.execute("select * from Type;");
-	while(!prop_type.eof) {
-		Response.write("<ul>");
-		Response.write("<li>" + prop_type("name") + "</li>");	
-		prop_type.movenext
-		Response.write("</ul>");
-	}
-  }
-  else {
-  	Response.write("Could not connect to the database.");
-  }
-
+Response.Charset  = "UTF-8";
+Response.Codepage = 65001;
 %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="bg" lang="bg">
+  <head>
+    <title> Имоти </title>
+    <meta http-equiv="content-type" 
+      content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Style-Type" content="text/css" />
+    <link rel="stylesheet" href="style.css" type="text/css" media="screen" />
+  </head>
+
+  <body>
+
+    <div id="header">Имоти<hr/></div>
+      <div id="container">
+      <form method="get" name="register" action="Default.asp">
+        E-mail: <br />
+        <input type="text" name="email" /><br /><br />
+        Парола: <br />
+        <input type="password" name="password" /><br /><br />
+        Име: <br />
+        <input type="text" name="first_name" /><br /><br />
+        Фамилия: <br />
+        <input type="text" name="last_name" /><br /><br />
+        <input type="submit" value="Submit" />
+      </form>
+      <%
+      form2arr();
+      sql_insert("User");
+      var users = connection.execute("select * from User;");
+      while(!users.eof) {
+        Response.write("<ul>");
+        Response.write("<li>" + users("email") +", "+ users("password") +", "+ users("first_name") +", "+ users("last_name") + "</li>");	
+        users.movenext
+        Response.write("</ul>");
+      }
+      %>
+    </div>
+  </body>
+</html>
