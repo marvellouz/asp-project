@@ -35,7 +35,7 @@ function generate_form(form_arr, label_input_arr, submit_value) {
 }
 
 function form2arr(req) {
-    var res = new Array();
+    var res = {};
     for(var i = 1; i <= req.Form.count(); i++) { 
         res[new String(req.Form.key(i))] = new String(req.Form.item(i));
     }
@@ -56,25 +56,62 @@ function contains_value(arr, value) {
     return false;
 }
 
+function p(v) {
+  Response.write("[DEBUG] " + v + "<br/>");
+}
+
+function values (arr) {
+  var vals = [];
+  for(var key in arr) {
+    vals.push(key + "=" + ad_quote(arr[key]));
+  }
+  return vals.join(" and ");
+}
+
 function sql_insert(table_name, req) {
-    var attrs = new String();
-    var values = new String();
-    var x = form2arr(req);
-    var empty = new Array();
-    for(var key in x) {
-        attrs += key + ", ";
-        values += x[key] + "', '";
-        empty.push(""==x[key])
+    var attrs = [];
+    var vals = [];
+    var form_values = form2arr(req);
+    for(var key in form_values) {
+      if (!(form_values[key]=="")) {
+        throw new ValidationError("Моля попълнете всички полета!");
+      }
+      attrs.push(key);
+      vals.push(add_quote(form_values[key]));
     }
 
-    var sql = "insert into " + table_name + "(" + attrs.slice(0, attrs.length-2) + ") values ('" + values.slice(0, values.length-4) + "')";
-    var prt = sql + "<br/>";
-    if(!contains_value(x, "")) {
-      connection.execute(sql);
-    }
-    else {
-        throw new Error("Моля попълнете всички полета!");
-    }
-    return prt;
+    var sql = "insert into " + table_name + "(" + attrs.join(', ') + ") values (" + vals.join(", ") + ")";
+    connection.execute(sql);
 }
+
+
+function ValidationError(msg) {
+  this.msg = msg;
+}
+
+ValidationError.prototype.toString = function() {
+  return this.msg;
+}
+
+
+function add_quote(x) {
+  var s;
+  if(x instanceof String || typeof(x) == 'string') {
+    s = "'" + x + "'";
+  }
+  else {
+    s = x;
+  }
+  return s;
+}
+
+function where (arr) {
+  return " where " + values(arr);
+}
+
+function exists(table_name, arr) {
+  var sql = "select count(*) from " + table_name + where(arr);
+  return connection.execute(sql)("count");
+}
+
 %>
