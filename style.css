@@ -1,4 +1,5 @@
 body {
+  font: italic 14px Georgia, serif;
   min-width: 800px;
   padding: 0;
   margin: 0;
@@ -13,6 +14,10 @@ img {
   float: left;
   height: 203px;
   margin-left: 10%;
+}
+
+#hmenu {
+  display: inline-block;
 }
 
 #hmenu li a {
@@ -31,26 +36,75 @@ img {
   background-image: url("images/search_hover.png");
 }
 
+#home {
+  background-image: url("images/home.jpg");
+  height: 88px;
+  width: 88px;
+}
+
+#home:hover {
+  background-image: url("images/home_hover.jpg");
+}
+
 #header {
   border-bottom: 5px solid #111F90;
   height: 203px;
   background-color: #971919;
 }
 
-#hmenu {
+#hmenu li {
   padding-top: 60px;
   display: inline-block;
   list-style-type: none;
 }
 
 #content {
+  clear: both;
+  float: left;
   margin-left: 10%;
   width: 75%;
-  padding: 30px;
+  padding: 12px;
 }
 
 #container {
 }
 
 #footer {
+}
+
+#flash {
+  display: block;
+  background-color: #434FA7;
+  border: 1px solid #0D1B8C;
+  padding: 10px;
+  color: white;
+  font: italic bold 16px Georgia, serif;
+}
+
+#menu2 {
+  margin-top: 0px;
+  padding-left: 10%;
+  background-color: silver;
+}
+
+#menu2 li {
+  display: inline-block;
+  list-style-type: none;
+  padding: 12px;
+}
+
+#menu2 li a {
+  font: bold italic 16px Georgia, serif;
+  color: #434FA7;
+}
+
+a {
+  text-decoration: none;
+}
+
+h1 {
+  color: #434FA7;
+}
+
+input {
 }

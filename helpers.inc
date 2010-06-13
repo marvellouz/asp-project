@@ -1,42 +1,48 @@
 <!--#include file="md5.inc"-->
 <%
+Response.Charset  = "UTF-8";
+Response.Codepage = 65001;
+
+
 var Settings = {
     salt: "hyuaryu478ry87326dbe3$@$feuih#$&()bgfry^vdfsGTHT"
 }
 
+var blocks = {};
 
-var f1 = {"method":"post", "name":"formname", "action":"Default.asp"}
-var f1_input = [{"label":"label","id":"id", "name":"name", "maxlength":"20", "type":"text"}, {"label":"label2","id":"id2", "name":"name2", "maxlength":"20", "type":"text"}]
+var register_form = {"method":"post", "name":"register", "action":"register.asp"}
+var register_input = [{"label":"E-mail", "name":"email", "maxlength":"40", "type":"text", "id":"email_id"}, {"label":"Парола","name":"password", "maxlength":"20", "type":"password", "id":"password_id"}, {"label":"Име","name":"first_name", "maxlength":"20", "type":"text", "id":"fname_id"}, {"label":"Фамилия","name":"last_name", "maxlength":"20", "type":"text", "id":"lname_id"}]
 
 
 function generate_form(form_arr, label_input_arr, submit_value) {
-  var res = "<form ";
+  var res = "<p><form ";
   for(var key in form_arr){
     res += key + "=" + form_arr[key] + " ";
   }
-  res += ">";
+  res += "><p>";
 
   for(var i=0; i<label_input_arr.length; i++) {
     res += "<label for=" + label_input_arr[i]["id"] + "><br/>" + label_input_arr[i]["label"] + ":<br/></label><input ";
     for(var key in label_input_arr[i]) {
-      res += key + "=" + label_input_arr[i][key];
+      if(key != "label") {
+        res += key + "=" + label_input_arr[i][key] + " ";
+      }
     }
   }
-  res += "/><br/><br/><input type='submit' value='" + submit_value + "'/>"
-  res += "</form><br/><br/>"
-  Response.write(res);
+  res += "/><p/><input type='submit' value='" + submit_value + "'/>"
+  res += "</form></p>"
+  return res;
 }
 
-function form2arr() {
+function form2arr(req) {
     var res = new Array();
-    for(var i = 1; i <= Request.QueryString.count(); i++) { 
-        res[new String(Request.QueryString.key(i))] = new String(Request.QueryString.item(i));
+    for(var i = 1; i <= req.Form.count(); i++) { 
+        res[new String(req.Form.key(i))] = new String(req.Form.item(i));
     }
     for(var key in res){
         if(key == "password"){
             res[key] = MD5(res[key] + Settings.salt);
         }
-        Response.write(key + " : " + res[key] + "<br/>");
     }
     return res;
 }
@@ -50,11 +56,11 @@ function contains_value(arr, value) {
     return false;
 }
 
-function sql_insert(table_name) {
+function sql_insert(table_name, req) {
     var attrs = new String();
     var values = new String();
-    x = form2arr();
-    empty = new Array();
+    var x = form2arr(req);
+    var empty = new Array();
     for(var key in x) {
         attrs += key + ", ";
         values += x[key] + "', '";
@@ -62,20 +68,13 @@ function sql_insert(table_name) {
     }
 
     var sql = "insert into " + table_name + "(" + attrs.slice(0, attrs.length-2) + ") values ('" + values.slice(0, values.length-4) + "')";
-    Response.write(sql);
-
+    var prt = sql + "<br/>";
     if(!contains_value(x, "")) {
-        try {
-          connection.execute(sql);
-        }
-        catch(err) {
-          txt="There was an error on this page.\n\n";
-          txt+="Error description: " + err.description + "\n\n";
-          Response.write(txt);
-        }
+      connection.execute(sql);
     }
     else {
-        Response.write("<br/>Моля попълнете всички полета!<br/>");
+        throw new Error("Моля попълнете всички полета!");
     }
+    return prt;
 }
 %>
