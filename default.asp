@@ -29,6 +29,13 @@ Response.Codepage = 65001;
     </div>
     </div>
         <div id="content">
+
+<%
+Response.write("Форма:");
+generate_form(f1, f1_input, "Submit");
+%>
+
+
       <form method="get" name="register" action="Default.asp">
         E-mail: <br />
         <input type="text" name="email" /><br /><br />
