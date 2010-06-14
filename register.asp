@@ -14,10 +14,10 @@ if(method == "POST") {
   else {
     form_values["password"] = hash_password(form_values["password"]);
     sql_insert("User", form_values);
-    flash = "Успешна регистрация!"
+    Session('flash') = "Успешна регистрация!"
+    Response.Redirect("default.asp")
   }
 }
-
 
 var users = connection.execute("select * from User;");
 
