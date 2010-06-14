@@ -5,5 +5,7 @@
 var flash = new String(Session("flash") || "");
 Session.Contents.Remove("flash");
 
+var form_values = form2arr(Request);
+
 var method = Request.ServerVariables("REQUEST_METHOD");
 %>

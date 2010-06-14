@@ -4,14 +4,17 @@ var form;
 
 form ="<h1>Регистрация</h1>";
 form += generate_form(register_form, register_input, "Submit");
-
-
 if(method == "POST") {
-  try {
-    sql_insert("User", Request);
+  var e = validate_form(form_values, register_validation);
+  if(!is_empty(e)) {
+    for(var key in e) {
+      flash += (e[key] + " ") || "";
+    }
   }
-  catch(e) {
-      flash=e.msg || "";
+  else {
+    form_values["password"] = hash_password(form_values["password"]);
+    sql_insert("User", form_values);
+    flash = "Успешна регистрация!"
   }
 }
 

@@ -34,15 +34,14 @@ function generate_form(form_arr, label_input_arr, submit_value) {
   return res;
 }
 
+function hash_password(password) {
+  return MD5(password + Settings.salt);
+}
+
 function form2arr(req) {
     var res = {};
     for(var i = 1; i <= req.Form.count(); i++) { 
         res[new String(req.Form.key(i))] = new String(req.Form.item(i));
-    }
-    for(var key in res){
-        if(key == "password"){
-            res[key] = MD5(res[key] + Settings.salt);
-        }
     }
     return res;
 }
@@ -63,19 +62,15 @@ function p(v) {
 function values (arr) {
   var vals = [];
   for(var key in arr) {
-    vals.push(key + "=" + ad_quote(arr[key]));
+    vals.push(key + "=" + add_quote(arr[key]));
   }
   return vals.join(" and ");
 }
 
-function sql_insert(table_name, req) {
+function sql_insert(table_name, form_values) {
     var attrs = [];
     var vals = [];
-    var form_values = form2arr(req);
     for(var key in form_values) {
-      if (!(form_values[key]=="")) {
-        throw new ValidationError("Моля попълнете всички полета!");
-      }
       attrs.push(key);
       vals.push(add_quote(form_values[key]));
     }
@@ -111,7 +106,61 @@ function where (arr) {
 
 function exists(table_name, arr) {
   var sql = "select count(*) from " + table_name + where(arr);
-  return connection.execute(sql)("count");
+  var res = connection.execute(sql);
+  return (res("count(*)"))>0;
 }
 
+function validate_email(user_email) {
+  var emailReg = "^[\\w-_\.+]*[\\w-_\.]\@([\\w]+\\.)+[\\w]+[\\w]$";
+  var regex = new RegExp(emailReg);
+  if(!regex.test(user_email)) {
+    throw new ValidationError("Невалиден email.");
+  }
+  if (exists("User", {email : user_email})){
+    throw new ValidationError("Потребителският e-mail вече съществува!");
+  }
+}
+
+function validate_password(password) {
+  if (password.length < 6) {
+    throw new ValidationError("Паролата ви е твърде кратка. Моля въведете поне 6 символа.");
+  }
+}
+
+function validate_empty(form_values) {
+  for(var key in form_values) {
+    if (form_values[key]=="") {
+      throw new ValidationError("Моля, попълнете всички полета!");
+    }
+  }
+}
+
+var register_validation = {email:validate_email, password:validate_password};
+
+function is_empty(arr) {
+  for(var key in arr) {
+    return false;
+  }
+  return true;
+}
+
+function validate_form(form_values, opts) {
+  var errors = {};
+  try {
+    validate_empty(form_values);
+  }
+  catch(e) {
+    errors['empty'] = e.msg;
+    return errors;
+  }
+  for(var key in opts) {
+    try {
+      opts[key](form_values[key]);
+    }
+    catch(e) {
+      errors[key] = e.msg;
+    }
+  }
+  return errors;
+}
 %>
