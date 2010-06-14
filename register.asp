@@ -7,7 +7,7 @@ var register_input = [{"label":"E-mail", "name":"email", "maxlength":"40", "type
 var register_validation = {email:validate_email, password:validate_password};
 
 form ="<h1>Регистрация</h1>";
-form += generate_form(register_form, register_input, "Submit");
+form += generate_form(register_form, register_input, "Регистрация");
 if(method == "POST") {
   var e = validate_form(form_values, register_validation);
   if(!is_empty(e)) {
@@ -18,6 +18,12 @@ if(method == "POST") {
   else {
     form_values["password"] = hash_password(form_values["password"]);
     sql_insert("User", form_values);
+    if(Request.Form("is_admin")==1){
+      sql_insert("Seller", {"User_email":form_values["email"]});
+    }
+    else {
+      sql_insert("Customer", {"User_email":form_values["email"]});
+    }
     Session('flash') = "Успешна регистрация!"
     Response.Redirect("default.asp")
   }

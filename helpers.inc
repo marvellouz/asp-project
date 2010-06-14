@@ -159,4 +159,15 @@ function validate_form(form_values, opts) {
   }
   return errors;
 }
+
+
+function login_valid(user_email, user_password) {
+  if(exists("User", {email:user_email, password:user_password})){
+    Session("flash") = "Успешна регистрация";
+    Session("user_email") = user_email;
+    return true;
+  }
+  return false;
+}
+
 %>

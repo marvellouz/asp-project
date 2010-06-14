@@ -24,6 +24,7 @@
         <ul id="menu2">
             <li><a href="./register.asp">Регистрация</a></li>
             <li><a href="./login.asp">Вход</a></li>
+            <li><a href="./logout.asp">Изход</a></li>
         </ul>
     </div>
         <div id="content">
