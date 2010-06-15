@@ -22,9 +22,14 @@
     </div>
     <div id="menu2_div">
         <ul id="menu2">
-            <li><a href="./register.asp">Регистрация</a></li>
-            <li><a href="./login.asp">Вход</a></li>
-            <li><a href="./logout.asp">Изход</a></li>
+        <%
+          if(new String(Session("user_email"))!="undefined") {
+            Response.write("<li><a href='./logout.asp'>Изход</a></li>");
+            }
+          else {
+            Response.write("<li><a href='./register.asp'>Регистрация</a></li> <li><a href='./login.asp'>Вход</a></li>");
+            }
+          %>
         </ul>
     </div>
         <div id="content">
