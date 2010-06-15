@@ -7,7 +7,7 @@ var register_input = [{"label":"E-mail", "name":"email", "maxlength":"40", "type
 var register_validation = {email:validate_email, password:validate_password};
 
 form ="<h1>Регистрация</h1>";
-form += generate_form(register_form, register_input, "Регистрация");
+form += generate_form(register_form, "Регистрация", register_input);
 if(method == "POST") {
   var e = validate_form(form_values, register_validation);
   if(!is_empty(e)) {

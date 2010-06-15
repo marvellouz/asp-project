@@ -11,23 +11,36 @@ var Settings = {
 var blocks = {};
 
 
-function generate_form(form_arr, label_input_arr, submit_value) {
-  var res = "<p><form ";
-  for(var key in form_arr){
+function generate_form(form_arr, submit_value, label_input_arr, select) {
+  var select = select || [];
+  var label_input_arr = label_input_arr || [];
+  var res = "<form ";
+  for(var key in form_arr) {
     res += key + "=" + form_arr[key] + " ";
   }
-  res += "><p>";
-
-  for(var i=0; i<label_input_arr.length; i++) {
-    res += "<label for=" + label_input_arr[i]["id"] + "><br/>" + label_input_arr[i]["label"] + ":<br/></label><input ";
-    for(var key in label_input_arr[i]) {
-      if(key != "label") {
-        res += key + "=" + label_input_arr[i][key] + " ";
+  res += ">";
+  if(label_input_arr.length>0) {
+    for(var i=0; i<label_input_arr.length; i++) {
+      res += "<label for=" + label_input_arr[i]["id"] + "><br/>" + label_input_arr[i]["label"] + ":<br/></label><input ";
+      for(var key in label_input_arr[i]) {
+        if(key != "label") {
+          res += key + "=" + label_input_arr[i][key] + " ";
+        }
       }
     }
+    res += "/>";
   }
-  res += "/><p/><input type='submit' value='" + submit_value + "'/>"
-  res += "</form></p>"
+  if(select.length > 0) {
+    for(var i=0; i<select.length; i++) {
+      res += "<br/><label for=" + select[i]["id"] + "> " +select[i]["label"] + ":<br/></label>";
+      res += "<select name=" + select[i]["name"] + " id=" + select[i]["id"] + ">" + ":<br/></label>";
+      for(var j=0; j<(select[i]["values"].length); j++){
+          res += "<option value=" + select[i]["values"][j]["value"] + ">" + select[i]["values"][j]["text"] + "</option>";
+      }
+      res += "</select>"
+    }
+  }
+  res +="<p><input type='submit' value='" + submit_value + "'/></p></form>";
   return res;
 }
 
