@@ -25,6 +25,7 @@
         <%
           if(new String(Session("user_email"))!="undefined") {
             Response.write("<li><a href='./logout.asp'>Изход</a></li>");
+            Response.write("<li><a href='./add_place.asp'>Добави място</a></li>");
             }
           else {
             Response.write("<li><a href='./register.asp'>Регистрация</a></li> <li><a href='./login.asp'>Вход</a></li>");

@@ -19,6 +19,16 @@ function generate_form(form_arr, submit_value, label_input_arr, select) {
     res += key + "=" + form_arr[key] + " ";
   }
   res += ">";
+  if(select.length > 0) {
+    for(var i=0; i<select.length; i++) {
+      res += "<br/><label for=" + select[i]["id"] + "> " +select[i]["label"] + ":<br/></label>";
+      res += "<select name=" + select[i]["name"] + " id=" + select[i]["id"] + ">" + ":<br/></label>";
+      for(var j=0; j<(select[i]["values"].length); j++){
+          res += "<option value=" + select[i]["values"][j]["value"] + ">" + select[i]["values"][j]["text"] + "</option>";
+      }
+      res += "</select>"
+    }
+  }
   if(label_input_arr.length>0) {
     for(var i=0; i<label_input_arr.length; i++) {
       res += "<label for=" + label_input_arr[i]["id"] + "><br/>" + label_input_arr[i]["label"] + ":<br/></label><input ";
@@ -30,16 +40,7 @@ function generate_form(form_arr, submit_value, label_input_arr, select) {
     }
     res += "/>";
   }
-  if(select.length > 0) {
-    for(var i=0; i<select.length; i++) {
-      res += "<br/><label for=" + select[i]["id"] + "> " +select[i]["label"] + ":<br/></label>";
-      res += "<select name=" + select[i]["name"] + " id=" + select[i]["id"] + ">" + ":<br/></label>";
-      for(var j=0; j<(select[i]["values"].length); j++){
-          res += "<option value=" + select[i]["values"][j]["value"] + ">" + select[i]["values"][j]["text"] + "</option>";
-      }
-      res += "</select>"
-    }
-  }
+
   res +="<p><input type='submit' value='" + submit_value + "'/></p></form>";
   return res;
 }
@@ -121,8 +122,7 @@ function exists(table_name, arr) {
 }
 
 function validate_email(user_email) {
-  var emailReg = "^[\\w-_\.+]*[\\w-_\.]\@([\\w]+\\.)+[\\w]+[\\w]$";
-  var regex = new RegExp(emailReg);
+  var regex = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i
   if(!regex.test(user_email)) {
     throw new ValidationError("Невалиден email.");
   }
@@ -137,10 +137,12 @@ function validate_password(password) {
   }
 }
 
-function validate_empty(form_values) {
+
+function validate_empty(form_values, blanks) {
+  var blanks = blanks || [];
   for(var key in form_values) {
-    if (form_values[key]=="") {
-      throw new ValidationError("Моля, попълнете всички полета!");
+      if (form_values[key]=="" && !contains_value(blanks, key)) {
+        throw new ValidationError("Моля, попълнете всички полета, отбелязани с *!");
     }
   }
 }
@@ -153,10 +155,11 @@ function is_empty(arr) {
   return true;
 }
 
-function validate_form(form_values, opts) {
+function validate_form(form_values, opts, blanks) {
+  var blanks = blanks || [];
   var errors = {};
   try {
-    validate_empty(form_values);
+    validate_empty(form_values, blanks);
   }
   catch(e) {
     errors['empty'] = e.msg;
