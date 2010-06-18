@@ -10,9 +10,38 @@ var Settings = {
 
 var blocks = {};
 
+function select_tag(select){
+  var r="";
+  for(var i=0; i<select.length; i++) {
+    r += "<br/><label for=" + select[i]["id"] + "> " +select[i]["label"] + ":<br/></label>";
+    r += "<select name=" + select[i]["name"] + " id=" + select[i]["id"] + ">" + ":<br/>";
+    for(var j=0; j<(select[i]["values"].length); j++){
+      r += "<option value=" + select[i]["values"][j]["value"] + ">" + select[i]["values"][j]["text"] + "</option>";
+    }
+    r += "</select>"
+  }
+  return r;
+}
 
-function generate_form(form_arr, submit_value, label_input_arr, select) {
+function textarea_tag(textarea){
+  var r="";
+  for(var i=0; i<textarea.length; i++) {
+    r += "<br/><label for=" + textarea[i]["id"] + "> " + textarea[i]["label"] + ":<br/></label>";
+    r += "<textarea "
+    for(key in textarea[i]) {
+      if(key!="label" && key!="text"){
+        r += key + "=" + textarea[i][key] + " ";
+      }
+    }
+    r += "> " + textarea[i]["text"]
+    r += "</textarea>";
+  }
+  return r;
+}
+
+function generate_form(form_arr, submit_value, label_input_arr, select, textarea) {
   var select = select || [];
+  var textarea = textarea || [];
   var label_input_arr = label_input_arr || [];
   var res = "<form ";
   for(var key in form_arr) {
@@ -20,14 +49,10 @@ function generate_form(form_arr, submit_value, label_input_arr, select) {
   }
   res += ">";
   if(select.length > 0) {
-    for(var i=0; i<select.length; i++) {
-      res += "<br/><label for=" + select[i]["id"] + "> " +select[i]["label"] + ":<br/></label>";
-      res += "<select name=" + select[i]["name"] + " id=" + select[i]["id"] + ">" + ":<br/></label>";
-      for(var j=0; j<(select[i]["values"].length); j++){
-          res += "<option value=" + select[i]["values"][j]["value"] + ">" + select[i]["values"][j]["text"] + "</option>";
-      }
-      res += "</select>"
-    }
+      res += select_tag(select);
+  }
+  if(textarea.length > 0) {
+      res += textarea_tag(textarea);
   }
   if(label_input_arr.length>0) {
     for(var i=0; i<label_input_arr.length; i++) {
