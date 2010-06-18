@@ -15,6 +15,7 @@ function select_tag(select){
   for(var i=0; i<select.length; i++) {
     r += "<br/><label for=" + select[i]["id"] + "> " +select[i]["label"] + ":<br/></label>";
     r += "<select name=" + select[i]["name"] + " id=" + select[i]["id"] + ">" + ":<br/>";
+    r += "<option value='' default></option>"
     for(var j=0; j<(select[i]["values"].length); j++){
       r += "<option value=" + select[i]["values"][j]["value"] + ">" + select[i]["values"][j]["text"] + "</option>";
     }
@@ -40,9 +41,9 @@ function textarea_tag(textarea){
 }
 
 function generate_form(form_arr, submit_value, label_input_arr, select, textarea) {
-  var select = select || [];
-  var textarea = textarea || [];
-  var label_input_arr = label_input_arr || [];
+  var select = select==null?[]:select;
+  var textarea = textarea==null?[]:textarea;
+  var label_input_arr = label_input_arr==null?[]:label_input_arr;
   var res = "<form ";
   for(var key in form_arr) {
     res += key + "=" + form_arr[key] + " ";
@@ -164,7 +165,7 @@ function validate_password(password) {
 
 
 function validate_empty(form_values, blanks) {
-  var blanks = blanks || [];
+  var blanks = blanks==null?[]:blanks;
   for(var key in form_values) {
       if (form_values[key]=="" && !contains_value(blanks, key)) {
         throw new ValidationError("Моля, попълнете всички полета, отбелязани с *!");
@@ -181,7 +182,7 @@ function is_empty(arr) {
 }
 
 function validate_form(form_values, opts, blanks) {
-  var blanks = blanks || [];
+  var opts = opts==null?[]:opts;
   var errors = {};
   try {
     validate_empty(form_values, blanks);
