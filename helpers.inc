@@ -226,6 +226,25 @@ function select_tag_arr(tablename) {
   return arr;
 }
 
+function get_primary_keys(tablename) {
+  var sql = "SELECT k.column_name \
+  FROM information_schema.table_constraints t \
+  JOIN information_schema.key_column_usage k \
+  USING(constraint_name,table_schema,table_name) \
+  WHERE t.constraint_type='PRIMARY KEY' \
+    AND t.table_schema='property' \
+     AND t.table_name=" + add_quote(tablename);
+
+  var pk = connection.execute(sql);
+
+  var primary_keys = {};
+  while (pk.EOF != true) {
+    primary_keys[pk('column_name').value] = true;
+    pk.MoveNext();
+  }
+  return primary_keys;
+}
+
 function sql_insert_values(tablename, values, opts) {
   var opts = opts==null?{}:opts;
   var cols = [];
@@ -233,16 +252,26 @@ function sql_insert_values(tablename, values, opts) {
   var rs = Server.CreateObject("ADODB.Recordset");
   rs.CursorLocation = 3;
   rs.Open(tablename, connection, 3, 3, 512);
+
+  var primary_keys = get_primary_keys(tablename);
+
   for(var key in values) {
-    if (form_values[key]!="") {
-      cols.push(values[key]);
-      vals.push(form_values[key]);
+    if (form_values[values[key]] != "" ) {
+      cols.push(key);
+      vals.push(form_values[values[key]]);
     }
   }
+
   for(var key in opts) {
-    cols.push(key);
-    vals.push(opts[key]);
+    if(!primary_keys[key]) {
+      cols.push(key);
+      vals.push(opts[key]);
+    }
   }
+
+  throw new Error(cols.join(',') + " :: " + vals.join(','));
+  throw new Error(cols.length>0?"yes":"no");
+
   rs.AddNew(cols, vals);
   var pos = rs.absolutePosition;
   rs.Requery();

@@ -122,11 +122,12 @@ if(method == "POST") {
   else {
     var id = sql_insert_values("Address", {"street":"street", "number":"number", "floor":"floor", "appartment":"appartment", "entrance":"entrance"}, null);
     sql_insert_values("Place", {"meters":"meters", "price":"price", "additional_info":"additional_info", "Type_name":"Type_name", "Material_name":"Material_name"}, {"Address_id":id, "Seller_User_email":Session("user_email")});
+    sql_insert_values("Neighbourhood", {"name":"neighbourhood"}, null);
+    sql_insert_values("Address_has_Neighbourhood", {"Neighbourhood_name":"neighbourhood", "Address_id":id}, null);
     Session('flash') =  Session("user_email");
     Response.Redirect("default.asp");
   }
 }
-
 
 blocks["content"] = form;
 %>
