@@ -62,7 +62,6 @@ img {
   clear: both;
   float: left;
   margin-left: 10%;
-  width: 75%;
   padding: 12px;
 }
 
@@ -78,6 +77,8 @@ img {
   border: 1px solid #0D1B8C;
   padding: 10px;
   color: white;
+  margin-left: 10%;
+  width: 80%;
   font: italic bold 16px Georgia, serif;
 }
 
@@ -108,4 +109,13 @@ h1 {
 }
 
 input {
+}
+
+fieldset {
+  border: 1px solid #434FA7;
+}
+
+legend {
+  font: bold italic 20px Georgia, serif;
+  color: #434FA7;
 }

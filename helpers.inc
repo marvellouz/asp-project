@@ -13,11 +13,11 @@ var blocks = {};
 function select_tag(select){
   var r="";
   for(var i=0; i<select.length; i++) {
-    r += "<br/><label for=" + select[i]["id"] + "> " +select[i]["label"] + ":<br/></label>";
-    r += "<select name=" + select[i]["name"] + " id=" + select[i]["id"] + ">" + ":<br/>";
-    r += "<option value='' default></option>"
+    r += '<label for="' + select[i]["id"] + '"><br/> ' +select[i]["label"] + ":<br/></label>";
+    r += '<select name="' + select[i]["name"] + '" id="' + select[i]["id"] + '">' + "";
+    r += "<option value='' selected='selected'></option>"
     for(var j=0; j<(select[i]["values"].length); j++){
-      r += "<option value=" + select[i]["values"][j]["value"] + ">" + select[i]["values"][j]["text"] + "</option>";
+      r += "<option value='" + select[i]["values"][j]["value"] + "'>" + select[i]["values"][j]["text"] + "</option>";
     }
     r += "</select>"
   }
@@ -27,11 +27,11 @@ function select_tag(select){
 function textarea_tag(textarea){
   var r="";
   for(var i=0; i<textarea.length; i++) {
-    r += "<br/><label for=" + textarea[i]["id"] + "> " + textarea[i]["label"] + ":<br/></label>";
+    r += '<label for="' + textarea[i]["id"] + '"><br/> ' + textarea[i]["label"] + ":<br/></label>";
     r += "<textarea "
     for(key in textarea[i]) {
       if(key!="label" && key!="text"){
-        r += key + "=" + textarea[i][key] + " ";
+        r += key + "='" + textarea[i][key] + "' ";
       }
     }
     r += "> " + textarea[i]["text"]
@@ -40,15 +40,17 @@ function textarea_tag(textarea){
   return r;
 }
 
-function generate_form(form_arr, submit_value, label_input_arr, select, textarea) {
+function generate_form(legend, form_arr, submit_value, label_input_arr, select, textarea) {
   var select = select==null?[]:select;
+  var legend = legend==null?"":legend;
   var textarea = textarea==null?[]:textarea;
   var label_input_arr = label_input_arr==null?[]:label_input_arr;
   var res = "<form ";
   for(var key in form_arr) {
-    res += key + "=" + form_arr[key] + " ";
+    res += key + "=" + '"' + form_arr[key] + '"' + " ";
   }
   res += ">";
+  res += "<fieldset><legend>" + legend + "</legend>"
   if(select.length > 0) {
       res += select_tag(select);
   }
@@ -57,16 +59,17 @@ function generate_form(form_arr, submit_value, label_input_arr, select, textarea
   }
   if(label_input_arr.length>0) {
     for(var i=0; i<label_input_arr.length; i++) {
-      res += "<label for=" + label_input_arr[i]["id"] + "><br/>" + label_input_arr[i]["label"] + ":<br/></label><input ";
+      res += "<label for=" + '"' + label_input_arr[i]["id"] + '"><br/>' + label_input_arr[i]["label"] + ":<br/></label>";
+      res += "<input ";
       for(var key in label_input_arr[i]) {
         if(key != "label") {
-          res += key + "=" + label_input_arr[i][key] + " ";
+          res += key + "='" + label_input_arr[i][key] + "' ";
         }
       }
+    res += "></input>";
     }
-    res += "/>";
   }
-
+  res += "</fieldset>"
   res +="<p><input type='submit' value='" + submit_value + "'/></p></form>";
   return res;
 }
@@ -212,4 +215,14 @@ function login_valid(user_email, user_password) {
   return false;
 }
 
+function select_tag_arr(tablename) {
+  var items = connection.execute("select * from " + tablename + ";");
+  var arr = [];
+  while(!items.eof) {
+    var item = new String(items("name"));
+    arr.push({"value":item, "text":item});
+    items.movenext
+  }
+  return arr;
+}
 %>

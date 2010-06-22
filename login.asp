@@ -1,10 +1,9 @@
 <!--#include file="all.inc"-->
 <%
 var form;
-var login_form = {"method":"post", "name":"register", "action":"login.asp"};
+var login_form = {"method":"post", "id":"register", "action":"login.asp"};
 var login_input = [{"label":"E-mail", "name":"email", "type":"text", "id":"login_email_id"}, {"label":"Парола", "name":"password", "type":"password", "id":"login_password_id"}];
-form ="<h1>Вход</h1>";
-form += generate_form(login_form, "Вход", login_input);
+form = generate_form("Вход", login_form, "Вход", login_input);
 
 if(method == "POST") {
   var user_email = new String(Request.Form("email"));

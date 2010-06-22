@@ -33,12 +33,13 @@
           %>
         </ul>
     </div>
-        <div id="content">
-        <%
+    <%
         if (flash != "") {
           Response.write("<div id='flash'>" + flash + "</div>");
         }
-        %>
+    %>
+        <div id="content">
+
             <%= blocks['content'] %>
         </div>
         <div id="footer"></div>
