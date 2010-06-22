@@ -225,4 +225,36 @@ function select_tag_arr(tablename) {
   }
   return arr;
 }
+
+function sql_insert_values(tablename, values, opts) {
+  var opts = opts==null?{}:opts;
+  var cols = [];
+  var vals = [];
+  var rs = Server.CreateObject("ADODB.Recordset");
+  rs.CursorLocation = 3;
+  rs.Open(tablename, connection, 3, 3, 512);
+  for(var key in values) {
+    if (form_values[key]!="") {
+      cols.push(values[key]);
+      vals.push(form_values[key]);
+    }
+  }
+  for(var key in opts) {
+    cols.push(key);
+    vals.push(opts[key]);
+  }
+  rs.AddNew(cols, vals);
+  var pos = rs.absolutePosition;
+  rs.Requery();
+  rs.absolutePosition = pos;
+  try {
+    var id = rs.Fields("id").value;
+  }
+  catch (e){
+    id = undefined;
+  }
+  rs.Close();
+  return id;
+}
+
 %>

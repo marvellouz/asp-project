@@ -71,7 +71,7 @@ ENGINE = InnoDB;
 -- Table `property`.`Address`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `property`.`Address` (
-  `id` INT NOT NULL ,
+  `id` INT NOT NULL AUTO_INCREMENT,
   `street` VARCHAR(255) NULL ,
   `number` INT NULL ,
   `floor` INT NULL ,
@@ -132,7 +132,7 @@ ENGINE = InnoDB;
 -- Table `property`.`Extra`
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `property`.`Extra` (
-  `name` INT NOT NULL ,
+  `name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`name`) )
 ENGINE = InnoDB;
 
@@ -224,7 +224,7 @@ ENGINE = InnoDB;
 -- -----------------------------------------------------
 CREATE  TABLE IF NOT EXISTS `property`.`Place_has_Extra` (
   `Place_Seller_User_email` VARCHAR(100) NOT NULL ,
-  `Extra_name` INT NOT NULL ,
+  `Extra_name` VARCHAR(255) NOT NULL ,
   PRIMARY KEY (`Place_Seller_User_email`, `Extra_name`) ,
   INDEX `fk_Place_has_Extra_Place` (`Place_Seller_User_email` ASC) ,
   INDEX `fk_Place_has_Extra_Extra` (`Extra_name` ASC) ,
