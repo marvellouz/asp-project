@@ -1,5 +1,9 @@
 <!--#include file="all.inc"-->
 <%
+if(user) {
+  Session("flash") = "Вече имате регистрация " + user["email"];
+  Response.redirect("default.asp");
+}
 var form;
 var register_form = {"method":"post", "id":"register", "action":"register.asp"}
 var register_input = [{"label":"E-mail*", "name":"email", "maxlength":"60", "type":"text", "id":"email_id"}, {"label":"Парола*","name":"password", "maxlength":"20", "type":"password", "id":"password_id"}, {"label":"Име*","name":"first_name", "maxlength":"20", "type":"text", "id":"fname_id"}, {"label":"Фамилия*","name":"last_name", "maxlength":"20", "type":"text", "id":"lname_id"}, {"label":"Продавам имот", "id":"is_admin", "type":"checkbox", "name":"is_admin", "value":1}]
@@ -30,12 +34,12 @@ if(method == "POST") {
 
 var users = connection.execute("select * from User;");
 
-while(!users.eof) {
-  form += "<ul>";
-  form += "<li>" + users("email") +", "+ users("password") +", "+ users("first_name") +", "+ users("last_name") + "</li>";	
-  users.movenext
-  form += "</ul>";
-}
+//while(!users.eof) {
+//  form += "<ul>";
+//  form += "<li>" + users("email") +", "+ users("password") +", "+ users("first_name") +", "+ users("last_name") + "</li>";	
+//  users.movenext
+//  form += "</ul>";
+//}
 blocks["content"] = form;
 %>
 <!-- #include FILE="template.inc" -->

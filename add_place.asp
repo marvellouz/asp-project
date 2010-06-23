@@ -1,5 +1,10 @@
 <!--#include file="all.inc"-->
 <%
+if(!user || !user["is_admin"] == 1) {
+  Session("flash") = "Трябва да сте продавач за да видите тази страница!"
+  Response.Redirect("login.asp");
+}
+
 var form;
 var city = select_tag_arr("City");
 var type = select_tag_arr("Type");
@@ -13,7 +18,7 @@ var add_place_form = {
 
 var add_place_select = [
                         {
-                          "label":"Вид",
+                          "label":"Вид*",
                           "name":"Type_name",
                           "id":"type_id",
                           "values":type
@@ -106,7 +111,6 @@ var blanks = {
               "floor":"floor",
               "appartment":"appartment",
               "additional_info":"additional_info",
-              "Type_name":"Type_name",
               "Material_name":"Material_name"
             };
 
@@ -122,6 +126,7 @@ if(method == "POST") {
     sql_insert_values("Place", {"meters":"meters", "price":"price", "additional_info":"additional_info", "Type_name":"Type_name", "Material_name":"Material_name"}, {"Address_id":id, "Seller_User_email":Session("user_email")});
     sql_insert_values("Neighbourhood", {"name": "neighbourhood"}, null);
     sql_insert_values("Address_has_Neighbourhood", {"Neighbourhood_name": "neighbourhood" }, {"Address_id":id});
+    sql_insert_values("Address_has_City", {"City_name": "city_name" }, {"Address_id":id});
     Session('flash') = "Успешно добавихте имот!";
     Response.Redirect("default.asp");
   }

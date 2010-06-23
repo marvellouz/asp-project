@@ -81,7 +81,9 @@ function hash_password(password) {
 function form2arr(req) {
     var res = {};
     for(var i = 1; i <= req.Form.count(); i++) { 
-        res[new String(req.Form.key(i))] = new String(req.Form.item(i));
+        if(req.Form.key(i)) {
+          res[new String(req.Form.key(i)).toString()] = new String(req.Form.item(i)).toString();
+        }
     }
     return res;
 }
@@ -98,6 +100,29 @@ function contains_value(arr, value) {
 function p(v) {
   Response.write("[DEBUG] " + v + "<br/>");
 }
+
+function er(v) {
+  throw new Error(v);
+}
+
+Object.prototype.toString = function(open_brace, close_brace) {
+    str=open_brace || "{";
+    for(var i in this) {
+        a=this[i];
+        if(typeof(a)!="function" && a) {
+            str+= i + ": ";
+            if(typeof(a)=="string" || a instanceof String) {
+                str+="'" + a + "'";
+            }
+            else {
+                str+=a;
+            }
+            str+= ", \n";
+        }
+    }
+    str+=close_brace || "}";
+    return str;
+};
 
 function values (arr) {
   var vals = [];
@@ -235,7 +260,7 @@ function get_primary_keys(tablename) {
   USING(constraint_name,table_schema,table_name) \
   WHERE t.constraint_type='PRIMARY KEY' \
     AND t.table_schema='property' \
-     AND t.table_name=" + add_quote(tablename);
+    AND t.table_name=" + add_quote(tablename);
 
   var pk = connection.execute(sql);
 
@@ -260,28 +285,24 @@ function sql_insert_values(tablename, values, opts) {
 
   for(var key in values) {
 
-    if(primary_keys[key] == true) {
+    if(primary_keys[key]) {
       pk_filter[key] = form_values[values[key]];
     }
 
-    if (form_values[values[key]] != "" ) {
+    if(form_values[values[key]]) {
       cols.push(key);
       vals.push(form_values[values[key]]);
     }
   }
 
   for(var key in opts) {
-
     if(primary_keys[key]) {
       pk_filter[key] = opts[key];
     }
-    cols.push(key);
-    vals.push(opts[key]);
-  }
-
-  if(tablename == "Neighbourhood") {
-    //throw new Error(pk_filter['name']);
-    //throw new Error (debug.join(','));
+    if(opts[key]) {
+      cols.push(key);
+      vals.push(opts[key]);
+    }
   }
 
   if(!is_empty(pk_filter) && exists(tablename, pk_filter)) {
@@ -289,6 +310,7 @@ function sql_insert_values(tablename, values, opts) {
   }
 
   rs.AddNew(cols, vals);
+
   var pos = rs.absolutePosition;
   rs.Requery();
   rs.absolutePosition = pos;
