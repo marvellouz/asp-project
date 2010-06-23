@@ -1,8 +1,8 @@
 <!--#include file="all.inc"-->
 <%
 if(user && user["is_admin"] == 0 && method == "POST") {
-  var seller = connection.execute("select Seller_User_email from Place where Address_id=" + Request.QueryString("id") + ";");
-  sql_insert_values("Customer_has_place", null, {"Customer_User_email": user["email"], "Place_Address_id":Request.QueryString("id")});
+  connection.execute("delete from Customer_has_Place where Place_Address_id = " + Request.QueryString("id") + ";");
+  Session("flash") = 'Успешно премахнахте имот от "Моите места"';
   Response.redirect("customer_place_list.asp");
 }
 else {

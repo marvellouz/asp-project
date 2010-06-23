@@ -9,7 +9,7 @@ form += "<strong>Номер: </strong>" + place("id").value + "<br/><strong>Пр
 var add_place_list_form = {"method":"post", "id":"order", "action":"add_place_list.asp?id=" +Request.QueryString("id") };
 
 if(user && user["is_admin"] == 0) {
-  form += generate_form(null, add_place_list_form, 'Добави в "Моите имоти"');
+  form += generate_form(null, add_place_list_form, 'Добави в "Моите места"');
 }
 
 blocks["content"] = form;

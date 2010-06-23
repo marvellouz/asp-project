@@ -200,20 +200,21 @@ CREATE  TABLE IF NOT EXISTS `property`.`Address_has_City` (
 -- -----------------------------------------------------
 -- Table `property`.`Customer_has_Place`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `property`.`Customer_has_Place` (
+
+CREATE  TABLE IF NOT EXISTS `Customer_has_Place` (
   `Customer_User_email` VARCHAR(100) NOT NULL ,
-  `Place_Seller_User_email` VARCHAR(100) NOT NULL ,
-  PRIMARY KEY (`Customer_User_email`, `Place_Seller_User_email`) ,
+  `Place_Address_id` INT NOT NULL ,
+  PRIMARY KEY (`Customer_User_email`, `Place_Address_id`) ,
   INDEX `fk_Customer_has_Place_Customer1` (`Customer_User_email` ASC) ,
-  INDEX `fk_Customer_has_Place_Place1` (`Place_Seller_User_email` ASC) ,
+  INDEX `fk_Customer_has_Place_Place1` (`Place_Address_id` ASC) ,
   CONSTRAINT `fk_Customer_has_Place_Customer1`
     FOREIGN KEY (`Customer_User_email` )
-    REFERENCES `property`.`Customer` (`User_email` )
+    REFERENCES `Customer` (`User_email` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_Customer_has_Place_Place1`
-    FOREIGN KEY (`Place_Seller_User_email` )
-    REFERENCES `property`.`Place` (`Seller_User_email` )
+    FOREIGN KEY (`Place_Address_id` )
+    REFERENCES `Place` (`Address_id` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
