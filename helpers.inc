@@ -42,7 +42,6 @@ function textarea_tag(textarea){
 
 function generate_form(legend, form_arr, submit_value, label_input_arr, select, textarea) {
   var select = select==null?[]:select;
-  var legend = legend==null?"":legend;
   var textarea = textarea==null?[]:textarea;
   var label_input_arr = label_input_arr==null?[]:label_input_arr;
   var res = "<form ";
@@ -50,7 +49,9 @@ function generate_form(legend, form_arr, submit_value, label_input_arr, select, 
     res += key + "=" + '"' + form_arr[key] + '"' + " ";
   }
   res += ">";
-  res += "<fieldset><legend>" + legend + "</legend>"
+  if(legend != null){
+    res += "<fieldset><legend>" + legend + "</legend>";
+  }
   if(select.length > 0) {
       res += select_tag(select);
   }
@@ -69,7 +70,9 @@ function generate_form(legend, form_arr, submit_value, label_input_arr, select, 
     res += "></input>";
     }
   }
-  res += "</fieldset>"
+  if(legend != null) {
+    res += "</fieldset>";
+  }
   res +="<p><input type='submit' value='" + submit_value + "'/></p></form>";
   return res;
 }

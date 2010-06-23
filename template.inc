@@ -28,6 +28,9 @@
             if(user["is_admin"]==1){
               Response.write("<li><a href='./add_place.asp'>Добави място</a></li>");
             }
+            else {
+              Response.write("<li><a href='./customer_place_list.asp'>Моите места</a></li>");
+            }
           }
           else {
             Response.write("<li><a href='./register.asp'>Регистрация</a></li> <li><a href='./login.asp'>Вход</a></li>");
