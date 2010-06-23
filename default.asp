@@ -8,6 +8,7 @@ while(!places.eof) {
   places.movenext
   form += "</ul>";
 }
+
 blocks["content"] = form;
 %>
 <!--#include file="template.inc"-->
