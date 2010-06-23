@@ -141,6 +141,9 @@ function add_quote(x) {
 }
 
 function where (arr) {
+  if(is_empty(arr)) {
+    return "";
+  } 
   return " where " + values(arr);
 }
 
@@ -165,7 +168,6 @@ function validate_password(password) {
     throw new ValidationError("Паролата ви е твърде кратка. Моля въведете поне 6 символа.");
   }
 }
-
 
 function validate_empty(form_values, blanks) {
   var blanks = blanks==null?[]:blanks;
@@ -250,12 +252,18 @@ function sql_insert_values(tablename, values, opts) {
   var cols = [];
   var vals = [];
   var rs = Server.CreateObject("ADODB.Recordset");
+  var pk_filter = {};
   rs.CursorLocation = 3;
   rs.Open(tablename, connection, 3, 3, 512);
 
   var primary_keys = get_primary_keys(tablename);
 
   for(var key in values) {
+
+    if(primary_keys[key] == true) {
+      pk_filter[key] = form_values[values[key]];
+    }
+
     if (form_values[values[key]] != "" ) {
       cols.push(key);
       vals.push(form_values[values[key]]);
@@ -263,14 +271,22 @@ function sql_insert_values(tablename, values, opts) {
   }
 
   for(var key in opts) {
-    if(!primary_keys[key]) {
-      cols.push(key);
-      vals.push(opts[key]);
+
+    if(primary_keys[key]) {
+      pk_filter[key] = opts[key];
     }
+    cols.push(key);
+    vals.push(opts[key]);
   }
 
-  throw new Error(cols.join(',') + " :: " + vals.join(','));
-  throw new Error(cols.length>0?"yes":"no");
+  if(tablename == "Neighbourhood") {
+    //throw new Error(pk_filter['name']);
+    //throw new Error (debug.join(','));
+  }
+
+  if(!is_empty(pk_filter) && exists(tablename, pk_filter)) {
+    return;
+  }
 
   rs.AddNew(cols, vals);
   var pos = rs.absolutePosition;

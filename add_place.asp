@@ -25,7 +25,7 @@ var add_place_select = [
                           "values":material
                         },
                         {
-                          "label":"Град",
+                          "label":"Град*",
                           "name":"city_name",
                           "id":"city",
                           "values":city
@@ -34,7 +34,7 @@ var add_place_select = [
 
 var place_input = [
                     {
-                      "label":"Квартал",
+                      "label":"Квартал*",
                       "name":"neighbourhood",
                       "type":"text",
                       "id":"neighbourhood_id"
@@ -106,8 +106,6 @@ var blanks = {
               "floor":"floor",
               "appartment":"appartment",
               "additional_info":"additional_info",
-              "city_name":"city_name",
-              "neighbourhood":"neighbourhood",
               "Type_name":"Type_name",
               "Material_name":"Material_name"
             };
@@ -122,9 +120,9 @@ if(method == "POST") {
   else {
     var id = sql_insert_values("Address", {"street":"street", "number":"number", "floor":"floor", "appartment":"appartment", "entrance":"entrance"}, null);
     sql_insert_values("Place", {"meters":"meters", "price":"price", "additional_info":"additional_info", "Type_name":"Type_name", "Material_name":"Material_name"}, {"Address_id":id, "Seller_User_email":Session("user_email")});
-    sql_insert_values("Neighbourhood", {"name":"neighbourhood"}, null);
-    sql_insert_values("Address_has_Neighbourhood", {"Neighbourhood_name":"neighbourhood", "Address_id":id}, null);
-    Session('flash') =  Session("user_email");
+    sql_insert_values("Neighbourhood", {"name": "neighbourhood"}, null);
+    sql_insert_values("Address_has_Neighbourhood", {"Neighbourhood_name": "neighbourhood" }, {"Address_id":id});
+    Session('flash') = "Успешно добавихте имот!";
     Response.Redirect("default.asp");
   }
 }
