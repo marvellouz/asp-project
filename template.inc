@@ -15,8 +15,8 @@
     <div id="header"><a href="./"><img alt="logo" id="logo" src="images/logo.png" /></a>
       <div id = "hmenu_div">
         <ul id = "hmenu">
-          <li><a id="home" href = "/asp-project/"></a></li>
-          <li><a id="search" href = "/asp-project/search.asp"></a></li>
+          <li><a id="home" href = "default.asp"></a></li>
+          <li><a id="search" href = "search.asp"></a></li>
         </ul>
     </div>
     </div>
