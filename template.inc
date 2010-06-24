@@ -16,7 +16,7 @@
       <div id = "hmenu_div">
         <ul id = "hmenu">
           <li><a id="home" href = "/asp-project/"></a></li>
-          <li><a id="search" href = "/asp-project/"></a></li>
+          <li><a id="search" href = "/asp-project/search.asp"></a></li>
         </ul>
     </div>
     </div>
@@ -27,6 +27,8 @@
             Response.write("<li><a href='./logout.asp'>Изход</a></li>");
             if(user["is_admin"]==1){
               Response.write("<li><a href='./add_place.asp'>Добави място</a></li>");
+              Response.write("<li><a href='./seller_place_list.asp'>Моите места</a></li>");
+              Response.write("<li><a href='./bought.asp'>Продадени места</a></li>");
             }
             else {
               Response.write("<li><a href='./customer_place_list.asp'>Моите места</a></li>");
