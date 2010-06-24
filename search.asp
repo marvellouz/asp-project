@@ -90,9 +90,9 @@ var place_input = [
 
 form = generate_form("Търсене на имот", add_place_form, "Търси", null, add_place_select, null);
 
+if(method == "POST"){
   x = form2arr(Request);
   var place = connection.execute("select * from place_info " + where(x)+ ";");
-  p("select * from place_info " + where(x)+ ";");
 
   while(!place.eof) {
     form += "<hr/><strong>Квадратура:</strong> " + place("meters").value + " кв. м." + "<br/><strong>Цена:</strong> " + place("price").value + " лв.";
@@ -105,7 +105,6 @@ form = generate_form("Търсене на имот", add_place_form, "Търси
     place.movenext;
   }
       
-      p(form2arr(Request));
 //    var id = sql_insert_values("Address", {"street":"street", "number":"number", "floor":"floor", "appartment":"appartment", "entrance":"entrance"}, null);
 //    sql_insert_values("Place", {"meters":"meters", "price":"price", "additional_info":"additional_info", "Type_name":"Type_name", "Material_name":"Material_name"}, {"Address_id":id, "Seller_User_email":Session("user_email")});
 //    sql_insert_values("Neighbourhood", {"name": "neighbourhood"}, null);
@@ -113,6 +112,7 @@ form = generate_form("Търсене на имот", add_place_form, "Търси
 //    sql_insert_values("Address_has_City", {"City_name": "city_name" }, {"Address_id":id});
 //    Session('flash') = "Успешно добавихте имот!";
 //    Response.Redirect("default.asp");
+}
 blocks["content"] = form;
 %>
 <!-- #include FILE="template.inc" -->

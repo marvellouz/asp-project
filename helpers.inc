@@ -130,7 +130,9 @@ Object.prototype.toString = function(open_brace, close_brace) {
 function values (arr) {
   var vals = [];
   for(var key in arr) {
-    vals.push(key + "=" + add_quote(arr[key]));
+    if(arr[key]) {
+      vals.push(key + "=" + add_quote(arr[key]));
+    }
   }
   return vals.join(" and ");
 }
